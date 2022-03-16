@@ -1,25 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\volod\\RiderProjects\\BotMedicUa\\BotMedicUa\\BotMedicUa.csproj": {}
+    "D:\\Ondruy\\BotMedicUa.csproj": {}
   },
   "projects": {
-    "C:\\Users\\volod\\RiderProjects\\BotMedicUa\\BotMedicUa\\BotMedicUa.csproj": {
+    "D:\\Ondruy\\BotMedicUa.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\volod\\RiderProjects\\BotMedicUa\\BotMedicUa\\BotMedicUa.csproj",
+        "projectUniqueName": "D:\\Ondruy\\BotMedicUa.csproj",
         "projectName": "BotMedicUa",
-        "projectPath": "C:\\Users\\volod\\RiderProjects\\BotMedicUa\\BotMedicUa\\BotMedicUa.csproj",
-        "packagesPath": "C:\\Users\\volod\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\volod\\RiderProjects\\BotMedicUa\\BotMedicUa\\obj\\",
+        "projectPath": "D:\\Ondruy\\BotMedicUa.csproj",
+        "packagesPath": "C:\\Users\\Vlad\\.nuget\\packages\\",
+        "outputPath": "D:\\Ondruy\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\volod\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Vlad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -48,7 +46,15 @@
           "dependencies": {
             "Deployf.Botf": {
               "target": "Package",
-              "version": "[0.5.1, )"
+              "version": "[0.8.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.3, )"
             }
           },
           "imports": [

@@ -7,7 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Deployf.Botf" Version="0.5.1" />
+      <PackageReference Include="Deployf.Botf" Version="0.8.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
     </ItemGroup>
 
 </Project>
