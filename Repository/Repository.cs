@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using BotMedicUa.Context;
 using BotMedicUa.Models;
+using BotMedicUa.Models.Enum;
+using Microsoft.EntityFrameworkCore;
 
 namespace BotMedicUa.Repository
 {
@@ -13,24 +15,51 @@ namespace BotMedicUa.Repository
 
         public Repository()
         {
-            _db = new DataContext();
+            _db = new DataContext();/*
+            var doctor = new Doctor
+            {
+                FirstName = "Stepan",
+                LastName = "Bandera",
+                ChatId = 1,
+                Classification = DoctorClassification.Anestasiolog,
+                Schedule = new Schedule
+                {
+                    AvaliableDays = new List<Day>()
+                    {
+                        new Day
+                        {
+                            day = DayOfWeek.Monday
+                        },
+                        new Day
+                        {
+                            day = DayOfWeek.Wednesday
+                        }
+                    },
+                    StartHour = 18,
+                    EndHour = 20
+                }
+            };
+            _db.Doctor.Add(doctor);
+            _db.SaveChanges();*/
         }
-
-        public Doctor GetDoctor(string firstName, string lastName)
-        {
-            var doctor = _db.Doctor.FirstOrDefault(x => x.FirstName == firstName && x.LastName == lastName);
-            return doctor;
-        }
-
+        
         public List<Record> GetRecords(Guid id)
         {
             throw new NotImplementedException();
         }
 
+        public Doctor GetDoctor(string firstName, string lastName, DoctorClassification classification)
+        {
+            return _db.Doctor.First();
+        }
+
         public List<Record> GetRecords(long id)
         {
-            var patient = _db.Patient.FirstOrDefault(x => x.UserId == id);
-            return patient?.Records;
+            var record = _db.Record.Where(x => x.Patient.UserId == id)
+                .Include(x => x.Doctor)
+                .Include(x => x.Patient)
+                .ToList();
+            return record;
         }
 
         public async Task AddRecord(long id, Record record)
@@ -39,14 +68,14 @@ namespace BotMedicUa.Repository
             await AddDoctorRecord(record.Doctor.Id, record);
         }
 
-        public async Task RemoveRecord(long id, Record record)
+        public async Task RemoveRecord(Guid id)
         {
-            var patient = _db.Patient.FirstOrDefault(x => x.UserId == id);
-            patient?.Records.Remove(record);
+            var record = _db.Record.First(x => x.Id == id);
+            _db.Record.Remove(record);
             await _db.SaveChangesAsync();
         }
 
-        public List<Doctor> GetDoctors(string classification)
+        public List<Doctor> GetDoctors(DoctorClassification classification)
         {
             return _db.Doctor.Where(x => x.Classification == classification).ToList();
         }
@@ -77,17 +106,20 @@ namespace BotMedicUa.Repository
                 {
                     user.FirstName = patient.FirstName;
                 }
-                if (!string.IsNullOrEmpty(patient.LastName))
-                {
-                    user.LastName = patient.LastName;
-                }
-                if (!string.IsNullOrEmpty(patient.PhoneNumber))
-                {
-                    user.PhoneNumber = patient.PhoneNumber;
-                }
-
                 _db.SaveChanges();
             }
+        }
+
+        public void AddDoctor(Doctor doctor)
+        {
+            _db.Doctor.Add(doctor);
+            _db.SaveChanges();
+        }
+
+        public List<Doctor> GetDoctors()
+        {
+            var doctors = _db.Doctor.Include(x => x.Records).Include(x=>x.Schedule).Include(x=>x.Schedule.AvaliableDays).ToList();
+            return doctors;
         }
 
         private async Task AddPatientRecord(long id, Record @record)
@@ -98,7 +130,7 @@ namespace BotMedicUa.Repository
             await _db.SaveChangesAsync();
         }
         
-        private async Task AddDoctorRecord(long id, Record @record)
+        private async Task AddDoctorRecord(Guid id, Record @record)
         {
             var patient = _db.Doctor.FirstOrDefault(x => x.Id == id);
             patient?.Records.Add(record);
